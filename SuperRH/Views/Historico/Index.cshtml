@@ -1,0 +1,108 @@
+﻿@model IEnumerable<SuperRH.Models.Funcionario>
+
+@{
+    ViewData["Title"] = "Gestão de Histórico";
+}
+
+<nav aria-label="breadcrumb" class="mb-2">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item small text-uppercase"><a href="/" class="text-secondary text-decoration-none">Dashboard</a></li>
+        <li class="breadcrumb-item small text-uppercase active text-primary" aria-current="page">Linha do Tempo</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-end mb-4">
+    <div>
+        <h3 class="fw-bold mb-0 text-white text-uppercase tracking-tight">Histórico Profissional</h3>
+        <p class="text-secondary mb-0 small">Selecione um colaborador para registrar novos eventos ou consultar a timeline.</p>
+    </div>
+</div>
+
+<div class="card bg-dark border-secondary border-opacity-10 rounded-0 shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle mb-0 custom-table">
+                <thead>
+                    <tr class="text-secondary text-uppercase small border-bottom border-secondary border-opacity-25">
+                        <th class="ps-4 py-3 fw-bold">Colaborador</th>
+                        <th class="py-3 fw-bold">CPF</th>
+                        <th class="py-3 fw-bold">Última Ocorrência</th>
+                        <th class="text-end pe-4 py-3 fw-bold">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="border-top-0">
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr class="border-bottom border-secondary border-opacity-10">
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-square me-3 bg-primary bg-opacity-10 border border-primary border-opacity-25 d-flex align-items-center justify-content-center text-primary fw-bold">
+                                            @item.NomeCompleto.Substring(0, 1).ToUpper()
+                                        </div>
+                                        <div class="fw-bold text-white">@item.NomeCompleto</div>
+                                    </div>
+                                </td>
+                                <td class="text-secondary font-monospace small">@item.CPF</td>
+                                <td class="text-secondary small italic">
+                                    <i class="bi bi-clock-history me-1"></i> Aguardando atualização...
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="btn-group">
+                                        @* Botão Visualizar Timeline *@
+                                        <button class="btn btn-action" onclick="verTimeline(@item.idFuncionario)" title="Ver Timeline">
+                                            <i class="bi bi-journal-text"></i>
+                                        </button>
+                                        @* Botão Adicionar Ocorrência *@
+                                        <button class="btn btn-primary rounded-0 border-0 ms-1 px-3 py-1 fw-bold text-uppercase"
+                                                style="font-size: 0.65rem;"
+                                                onclick="novaOcorrencia(@item.idFuncionario, '@item.NomeCompleto')">
+                                            <i class="bi bi-plus-circle me-1"></i> Add
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@* --- MODAIS --- *@
+<div class="modal fade" id="modalHistorico" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-dark border-secondary border-opacity-25 rounded-0 shadow-lg">
+            <div class="modal-header border-bottom border-secondary border-opacity-10 py-3">
+                <h5 class="modal-title text-white fw-bold text-uppercase small" id="tituloModalHist">Evento</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0" id="conteudoModalHist">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const modalHist = new bootstrap.Modal(document.getElementById('modalHistorico'));
+
+        function novaOcorrencia(id, nome) {
+            document.getElementById('tituloModalHist').innerText = "REGISTRAR EVENTO: " + nome.toUpperCase();
+            $("#conteudoModalHist").html('<div class="text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>');
+            $("#conteudoModalHist").load("/Historico/Create?idFuncionario=" + id);
+            modalHist.show();
+        }
+
+        function verTimeline(id) {
+            document.getElementById('tituloModalHist').innerText = "LINHA DO TEMPO";
+            $("#conteudoModalHist").load("/Historico/Timeline/" + id);
+            modalHist.show();
+        }
+    </script>
+}

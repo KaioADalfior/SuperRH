@@ -1,0 +1,79 @@
+﻿@model SuperRH.Models.Funcionario
+
+<form id="formNovoFuncionario" asp-action="Create" method="post" class="p-4" autocomplete="off">
+    @Html.AntiForgeryToken()
+    <div class="row g-3">
+        <div class="col-md-8">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Nome Completo</label>
+            <input asp-for="NomeCompleto" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input" required placeholder="Nome sem abreviações">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label text-secondary small fw-bold text-uppercase">CPF</label>
+            <input asp-for="CPF" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input" required placeholder="000.000.000-00">
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label text-secondary small fw-bold text-uppercase">RG</label>
+            <input asp-for="RG" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input" required>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Órgão Emissor</label>
+            <input asp-for="OrgaoEmissor" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input" placeholder="SSP/SP">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Nascimento</label>
+            <input asp-for="DataNascimento" type="date" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input" required>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Gênero</label>
+            <select asp-for="Sexo" class="form-select bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input" required>
+                <option value="" disabled selected>Selecionar</option>
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+                <option value="O">Outro</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Estado Civil</label>
+            <select asp-for="EstadoCivil" class="form-select bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input">
+                <option value="Solteiro">Solteiro(a)</option>
+                <option value="Casado">Casado(a)</option>
+                <option value="Divorciado">Divorciado(a)</option>
+                <option value="Viúvo">Viúvo(a)</option>
+                <option value="União Estável">União Estável</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Naturalidade</label>
+            <input asp-for="Naturalidade" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input" placeholder="Cidade de origem">
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Nome da Mãe</label>
+            <input asp-for="NomeMae" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Nome do Pai</label>
+            <input asp-for="NomePai" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input">
+        </div>
+
+        <div class="col-12 mt-5 border-top border-secondary border-opacity-10 pt-3 text-end">
+            <button type="button" class="btn btn-link text-secondary text-decoration-none me-3 small fw-bold text-uppercase" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary rounded-0 px-5 py-2 fw-bold text-uppercase small shadow-sm">
+                Salvar Registro
+            </button>
+        </div>
+    </div>
+</form>
+
+<script>
+    $("#formNovoFuncionario").off("submit").on("submit", function (e) {
+        e.preventDefault();
+        const form = $(this);
+        $.post(form.attr("action"), form.serialize(), function () {
+            modalFunc.hide();
+            window.location.reload();
+        }).fail(function(err){ alert("Erro ao salvar: " + err.responseText); });
+    });
+</script>

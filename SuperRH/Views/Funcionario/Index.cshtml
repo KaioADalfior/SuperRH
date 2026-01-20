@@ -1,0 +1,179 @@
+﻿@model IEnumerable<SuperRH.Models.Funcionario>
+
+@{
+    ViewData["Title"] = "Gestão de Funcionários";
+}
+
+<nav aria-label="breadcrumb" class="mb-2">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item small text-uppercase"><a href="/" class="text-secondary text-decoration-none">Dashboard</a></li>
+        <li class="breadcrumb-item small text-uppercase active text-primary" aria-current="page">Funcionários</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-end mb-4">
+    <div>
+        <h3 class="fw-bold mb-0 text-white text-uppercase tracking-tight">Registro de Colaboradores</h3>
+        <p class="text-secondary mb-0 small">Manutenção de dados pessoais e identificação civil.</p>
+    </div>
+    <button type="button" class="btn btn-primary rounded-0 px-4 py-2 shadow-sm fw-bold text-uppercase small" onclick="abrirModalFuncionario()">
+        <i class="bi bi-person-plus me-2"></i> Novo Registro
+    </button>
+</div>
+
+<div class="card bg-dark border-secondary border-opacity-10 rounded-0 mb-4 shadow-sm">
+    <div class="card-body py-3">
+        <form class="row gx-2 gy-3 align-items-center">
+            <div class="col-md-6">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-transparent border-secondary border-opacity-25 text-secondary rounded-0">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0" placeholder="Buscar por Nome, CPF ou RG...">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-outline-secondary btn-sm w-100 rounded-0 text-uppercase fw-bold small">Filtrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card bg-dark border-secondary border-opacity-10 rounded-0 shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle mb-0 custom-table">
+                <thead>
+                    <tr class="text-secondary text-uppercase small border-bottom border-secondary border-opacity-25">
+                        <th class="ps-4 py-3 fw-bold" style="width: 80px;">ID</th>
+                        <th class="py-3 fw-bold">Colaborador</th>
+                        <th class="py-3 fw-bold">Gênero</th>
+                        <th class="py-3 fw-bold">Nascimento</th>
+                        <th class="py-3 fw-bold">Status</th>
+                        <th class="text-end pe-4 py-3 fw-bold">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="border-top-0">
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr class="border-bottom border-secondary border-opacity-10">
+                                <td class="ps-4 text-secondary font-monospace">#@item.idFuncionario</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-square me-3 bg-secondary bg-opacity-10 border border-secondary border-opacity-25 d-flex align-items-center justify-content-center text-primary fw-bold">
+                                            @item.NomeCompleto.Substring(0, 1).ToUpper()
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold text-white mb-0">@item.NomeCompleto</div>
+                                            <div class="text-secondary small font-monospace">CPF: @item.CPF</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-secondary small text-uppercase">
+                                    @(item.Sexo == "M" ? "Masculino" : item.Sexo == "F" ? "Feminino" : "Outro")
+                                </td>
+                                <td class="text-secondary small">@item.DataNascimento.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    @if (item.Status)
+                                    {
+                                        <span class="status-pill active text-uppercase">Ativo</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-pill inactive text-uppercase">Inativo</span>
+                                    }
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="btn-group">
+                                        <button class="btn btn-action" onclick="verDetalhes(@item.idFuncionario)" title="Perfil Completo"><i class="bi bi-person-vcard"></i></button>
+                                        <button class="btn btn-action" onclick="editarFuncionario(@item.idFuncionario)" title="Editar Dados"><i class="bi bi-pencil-square"></i></button>
+                                        <button class="btn btn-action-danger" onclick="confirmarExclusao(@item.idFuncionario, '@item.NomeCompleto')" title="Excluir"><i class="bi bi-trash3"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center py-5">
+                                <i class="bi bi-people fs-1 text-secondary opacity-25 d-block mb-3"></i>
+                                <span class="text-secondary text-uppercase small fw-bold">Nenhum funcionário registrado</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalFuncionario" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-dark border-secondary border-opacity-25 rounded-0 shadow-lg">
+            <div class="modal-header border-bottom border-secondary border-opacity-10 py-3">
+                <h5 class="modal-title text-white fw-bold text-uppercase small" id="tituloModal">Funcionário</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0" id="conteudoModal">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalExcluirFunc" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content bg-dark border-danger border-opacity-25 rounded-0 shadow-lg">
+            <div class="modal-body text-center p-4">
+                <i class="bi bi-person-x text-danger fs-1 mb-3 d-block"></i>
+                <h6 class="text-white fw-bold text-uppercase small">Excluir Colaborador</h6>
+                <p class="text-secondary small mb-4">Remover permanentemente o registro de <br><strong id="nomeFuncExcluir" class="text-white"></strong>?</p>
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" name="id" id="idFuncExcluir" />
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger rounded-0 fw-bold btn-sm text-uppercase">Confirmar Exclusão</button>
+                        <button type="button" class="btn btn-outline-secondary rounded-0 btn-sm text-uppercase" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const modalFunc = new bootstrap.Modal(document.getElementById('modalFuncionario'));
+        const modalDel = new bootstrap.Modal(document.getElementById('modalExcluirFunc'));
+
+        function abrirModalFuncionario() {
+            document.getElementById('tituloModal').innerText = "CADASTRO DE DADOS PESSOAIS";
+            $("#conteudoModal").load("/Funcionario/Create");
+            modalFunc.show();
+        }
+
+        function verDetalhes(id) {
+            document.getElementById('tituloModal').innerText = "PERFIL DO COLABORADOR";
+            $("#conteudoModal").load("/Funcionario/Details/" + id);
+            modalFunc.show();
+        }
+
+        function editarFuncionario(id) {
+            document.getElementById('tituloModal').innerText = "EDITAR DADOS PESSOAIS";
+            $("#conteudoModal").html('<div class="text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>');
+            // Alterado para plural: /Funcionarios/
+            $("#conteudoModal").load("/Funcionario/Edit/" + id);
+            modalFunc.show();
+        }
+
+        function confirmarExclusao(id, nome) {
+            document.getElementById('idFuncExcluir').value = id;
+            document.getElementById('nomeFuncExcluir').innerText = nome;
+            modalDel.show();
+        }
+    </script>
+}

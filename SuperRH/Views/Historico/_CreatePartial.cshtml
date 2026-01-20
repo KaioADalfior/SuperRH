@@ -1,0 +1,43 @@
+﻿@model SuperRH.Models.Historico
+
+<form id="formNovaOcorrencia" asp-action="Create" method="post" class="p-4">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="idFuncionario" />
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Categoria do Evento</label>
+            <select asp-for="Categoria" class="form-select bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" required>
+                <option value="Admissão">Admissão</option>
+                <option value="Promoção">Promoção</option>
+                <option value="Alteração Salarial">Alteração Salarial</option>
+                <option value="Férias">Férias</option>
+                <option value="Advertência">Advertência</option>
+                <option value="Outros">Outros</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Título / Ocorrência</label>
+            <input asp-for="Titulo" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" placeholder="Ex: Aumento Anual" required />
+        </div>
+        <div class="col-md-12">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Descrição Detalhada</label>
+            <textarea asp-for="Descricao" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" rows="4"></textarea>
+        </div>
+        <div class="col-12 text-end mt-5">
+            <button type="button" class="btn btn-link text-secondary text-decoration-none me-3 small fw-bold" data-bs-dismiss="modal">CANCELAR</button>
+            <button type="submit" class="btn btn-primary rounded-0 px-4 py-2 fw-bold text-uppercase small">Gravar no Histórico</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    $("#formNovaOcorrencia").off("submit").on("submit", function (e) {
+        e.preventDefault();
+        const form = $(this);
+        $.post(form.attr("action"), form.serialize(), function () {
+            modalHist.hide();
+            // Opcional: Mostrar um aviso de sucesso
+        });
+    });
+</script>

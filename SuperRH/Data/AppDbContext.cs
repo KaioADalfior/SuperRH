@@ -10,6 +10,8 @@ namespace SuperRH.Data // <-- Verifique se este nome está IGUAL ao do Program.c
         }
 
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Funcionario> Funcionarios { get; set; }
+        public DbSet<Historico> Historico { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

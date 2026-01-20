@@ -20,7 +20,6 @@ namespace SuperRH.Controllers
             return View(lista);
         }
 
-        // Importante: Retorna PartialView para evitar o loop de carregamento infinito
         [HttpGet]
         public IActionResult Create() => PartialView("_CreatePartial");
 
@@ -51,7 +50,6 @@ namespace SuperRH.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Usuario usuario)
         {
-            // Removemos a validação de SenhaHash se ela não for obrigatória na edição
             ModelState.Remove("SenhaHash");
 
             if (ModelState.IsValid)
@@ -62,7 +60,6 @@ namespace SuperRH.Controllers
 
                     if (userDb == null) return NotFound();
 
-                    // Atualização manual dos campos para garantir persistência
                     userDb.NomeCompleto = usuario.NomeCompleto;
                     userDb.Email = usuario.Email;
                     userDb.Login = usuario.Login;
@@ -71,7 +68,7 @@ namespace SuperRH.Controllers
                     _context.Usuarios.Update(userDb);
                     _context.SaveChanges();
 
-                    return Ok(); // Resposta para o AJAX entender que deu certo
+                    return Ok(); 
                 }
                 catch (Exception ex)
                 {
@@ -79,7 +76,6 @@ namespace SuperRH.Controllers
                 }
             }
 
-            // Se o modelo for inválido, devolvemos a partial com os erros
             return PartialView("_EditPartial", usuario);
         }
 

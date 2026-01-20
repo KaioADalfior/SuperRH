@@ -236,3 +236,15 @@ select.bg-transparent option {
   .btn-action-quick:hover i {
     opacity: 1;
   }
+
+.timeline-item {
+  padding-left: 15px;
+}
+
+  .timeline-item h6 {
+    letter-spacing: 0.5px;
+  }
+
+.timeline-container {
+  margin-left: 15px;
+}
