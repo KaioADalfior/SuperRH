@@ -1,0 +1,212 @@
+﻿@model IEnumerable<SuperRH.Models.Usuario>
+
+@{
+    ViewData["Title"] = "Gestão de Usuários";
+}
+
+<nav aria-label="breadcrumb" class="mb-2">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item small text-uppercase"><a href="/" class="text-secondary text-decoration-none">Dashboard</a></li>
+        <li class="breadcrumb-item small text-uppercase active text-primary" aria-current="page">Usuários</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-end mb-4">
+    <div>
+        <h3 class="fw-bold mb-0 text-white text-uppercase tracking-tight">Controle de Acessos</h3>
+        <p class="text-secondary mb-0 small">Listagem de credenciais e níveis de permissão da plataforma.</p>
+    </div>
+    @* Botão alterado para chamar o Modal *@
+    <button type="button" class="btn btn-primary rounded-0 px-4 py-2 shadow-sm fw-bold text-uppercase small" onclick="abrirModalCadastro()">
+        <i class="bi bi-plus-lg me-2"></i> Adicionar Usuário
+    </button>
+</div>
+
+<div class="card bg-dark border-secondary border-opacity-10 rounded-0 mb-4 shadow-sm">
+    <div class="card-body py-3">
+        <form class="row gx-2 gy-3 align-items-center">
+            <div class="col-md-5">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-transparent border-secondary border-opacity-25 text-secondary rounded-0">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0" placeholder="Pesquisar por nome ou login...">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select form-select-sm bg-transparent border-secondary border-opacity-25 text-secondary rounded-0">
+                    <option selected>Filtrar por Nível</option>
+                    <option>Administrador</option>
+                    <option>Gerente</option>
+                    <option>Operador</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-outline-secondary btn-sm w-100 rounded-0 text-uppercase fw-bold small">Aplicar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card bg-dark border-secondary border-opacity-10 rounded-0 shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle mb-0 custom-table">
+                <thead>
+                    <tr class="text-secondary text-uppercase small border-bottom border-secondary border-opacity-25">
+                        <th class="ps-4 py-3 fw-bold" style="width: 80px;">ID</th>
+                        <th class="py-3 fw-bold">Informações do Perfil</th>
+                        <th class="py-3 fw-bold">Nível</th>
+                        <th class="py-3 fw-bold">Data Cadastro</th>
+                        <th class="py-3 fw-bold">Status</th>
+                        <th class="text-end pe-4 py-3 fw-bold">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="border-top-0">
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr class="border-bottom border-secondary border-opacity-10">
+                                <td class="ps-4 text-secondary font-monospace">#@item.idUsuario</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-square me-3 bg-secondary bg-opacity-10 border border-secondary border-opacity-25 d-flex align-items-center justify-content-center text-primary fw-bold">
+                                            @item.NomeCompleto.Substring(0, 1).ToUpper()
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold text-white mb-0">@item.NomeCompleto</div>
+                                            <div class="text-secondary" style="font-size: 0.75rem;">
+                                                <span class="text-primary opacity-75">@@@item.Login</span> • @item.Email
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    @{
+                                        var color = item.NivelAcesso == "Admin" ? "#ff4d4d" : (item.NivelAcesso == "Gerente" ? "#ffc107" : "#0dcaf0");
+                                    }
+                                    <div class="d-flex align-items-center">
+                                        <span class="dot me-2" style="background-color: @color"></span>
+                                        <span class="small text-uppercase fw-bold" style="color: @color; font-size: 0.7rem;">@item.NivelAcesso</span>
+                                    </div>
+                                </td>
+                                <td class="text-secondary small">@item.DataCriacao.ToString("dd MMM, yyyy")</td>
+                                <td>
+                                    @if (item.Status)
+                                    {
+                                        <span class="status-pill active text-uppercase">Ativo</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-pill inactive text-uppercase">Inativo</span>
+                                    }
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="btn-group">
+                                        @* Botões que disparam os modais *@
+                                        <button class="btn btn-action" onclick="verDetalhes(@item.idUsuario)" title="Visualizar"><i class="bi bi-eye"></i></button>
+                                        <button class="btn btn-action" onclick="editarUsuario(@item.idUsuario)" title="Editar"><i class="bi bi-pencil"></i></button>
+                                        <button class="btn btn-action-danger" onclick="confirmarExclusao(@item.idUsuario, '@item.NomeCompleto')" title="Excluir"><i class="bi bi-trash3"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center py-5">
+                                <i class="bi bi-inbox fs-1 text-secondary opacity-25 d-block mb-3"></i>
+                                <span class="text-secondary text-uppercase small fw-bold">Base de dados vazia</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer bg-dark border-top border-secondary border-opacity-10 py-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <p class="mb-0 small text-secondary">Total: <strong class="text-white">@(Model?.Count() ?? 0)</strong> registros</p>
+            <ul class="pagination pagination-sm mb-0">
+                <li class="page-item"><a class="page-link rounded-0 bg-transparent border-secondary border-opacity-25 text-secondary" href="#">Anterior</a></li>
+                <li class="page-item active"><a class="page-link rounded-0 border-primary bg-primary" href="#">1</a></li>
+                <li class="page-item"><a class="page-link rounded-0 bg-transparent border-secondary border-opacity-25 text-secondary" href="#">Próximo</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalUsuario" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-dark border-secondary border-opacity-25 rounded-0 shadow-lg">
+            <div class="modal-header border-bottom border-secondary border-opacity-10 py-3">
+                <h5 class="modal-title text-white fw-bold text-uppercase small" id="tituloModal">Usuário</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0" id="conteudoModal">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                    <p class="text-secondary small mt-2 text-uppercase fw-bold">Sincronizando Dados...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalExcluir" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content bg-dark border-danger border-opacity-25 rounded-0 shadow-lg">
+            <div class="modal-body text-center p-4">
+                <i class="bi bi-exclamation-octagon text-danger fs-1 mb-3 d-block"></i>
+                <h6 class="text-white fw-bold text-uppercase small">Confirmar Exclusão</h6>
+                <p class="text-secondary small mb-4">Deseja realmente remover o registro de <br><strong id="nomeUsuarioExcluir" class="text-white"></strong>?</p>
+
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" name="id" id="idUsuarioExcluir" />
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger rounded-0 fw-bold btn-sm text-uppercase">Remover Registro</button>
+                        <button type="button" class="btn btn-outline-secondary rounded-0 btn-sm text-uppercase" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const modalBase = new bootstrap.Modal(document.getElementById('modalUsuario'));
+        const modalExcluir = new bootstrap.Modal(document.getElementById('modalExcluir'));
+
+        function abrirModalCadastro() {
+            document.getElementById('tituloModal').innerText = "PROVISIONAMENTO DE NOVO USUÁRIO";
+            $("#conteudoModal").html('<div class="text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>');
+            $("#conteudoModal").load("/Usuario/Create");
+            modalBase.show();
+        }
+
+        function verDetalhes(id) {
+            document.getElementById('tituloModal').innerText = "INFORMAÇÕES DE ACESSO";
+            $("#conteudoModal").html('<div class="text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>');
+            $("#conteudoModal").load("/Usuario/Details/" + id);
+            modalBase.show();
+        }
+
+        function editarUsuario(id) {
+            document.getElementById('tituloModal').innerText = "ATUALIZAÇÃO DE CREDENCIAIS";
+            $("#conteudoModal").html('<div class="text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>');
+            $("#conteudoModal").load("/Usuario/Edit/" + id);
+            modalBase.show();
+        }
+
+        function confirmarExclusao(id, nome) {
+            document.getElementById('idUsuarioExcluir').value = id;
+            document.getElementById('nomeUsuarioExcluir').innerText = nome;
+            modalExcluir.show();
+        }
+    </script>
+}

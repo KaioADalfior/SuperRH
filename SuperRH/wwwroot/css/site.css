@@ -1,0 +1,233 @@
+/* Reset e Base DARK */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #121212; /* Fundo Geral Dark */
+  color: #e0e0e0;
+}
+
+/* Layout Wrapper */
+#wrapper {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+/* Sidebar Estilizada */
+#sidebar-wrapper {
+  min-width: 260px;
+  max-width: 260px;
+  background-color: #1a1a1a;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #2d2d2d;
+}
+
+/* Logo Area */
+.sidebar-heading {
+  padding: 1.5rem 1rem;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  background-color: #121212;
+}
+
+/* Menu e Links */
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.sidebar-label {
+  padding: 1.5rem 1rem 0.5rem;
+  font-size: 0.7rem;
+  color: #888;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.nav-item-main {
+  color: #b0b0b0;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+}
+
+  .nav-item-main:hover {
+    background-color: rgba(255,255,255,0.05);
+    color: #3d8bfd;
+    border-left-color: #3d8bfd;
+  }
+
+/* Submenu */
+.submenu-area {
+  background-color: #141414;
+}
+
+.nav-item-sub {
+  color: #888;
+  text-decoration: none;
+  padding: 0.5rem 1rem 0.5rem 2.8rem;
+  display: block;
+  font-size: 0.85rem;
+}
+
+  .nav-item-sub:hover {
+    color: #fff;
+    background-color: rgba(255,255,255,0.03);
+  }
+
+/* Conteúdo Principal DARK */
+#page-content-wrapper {
+  flex: 1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background-color: #121212;
+}
+
+/* Top Navbar DARK */
+.top-nav {
+  background: #1a1a1a;
+  border-bottom: 1px solid #2d2d2d;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+/* Card customizado para o Tema Dark */
+.card-dark-theme {
+  background-color: #1a1a1a !important;
+  border: 1px solid #2d2d2d !important;
+  color: #e0e0e0 !important;
+}
+
+/* Controle de visibilidade (Toggle) */
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: -260px;
+}
+
+/* Footer Custom DARK */
+.main-footer {
+  background: #1a1a1a;
+  border-top: 1px solid #2d2d2d;
+  padding: 1rem;
+  color: #777;
+  font-size: 0.85rem;
+}
+
+/* Utilitários */
+.bi {
+  font-size: 1.1rem;
+}
+/* Bordas quadradas e tipografia */
+.rounded-0 {
+  border-radius: 0 !important;
+}
+
+.tracking-tight {
+  letter-spacing: -0.5px;
+}
+
+/* Avatar Quadrado Estilo Corporativo */
+.avatar-square {
+  width: 40px;
+  height: 40px;
+  font-size: 1.1rem;
+  border-radius: 2px; /* Quase quadrado */
+}
+
+/* Status Pill Industrial */
+.status-pill {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border: 1px solid;
+  border-radius: 0px;
+}
+
+  .status-pill.active {
+    color: #2eb85c;
+    background: rgba(46, 184, 92, 0.1);
+    border-color: rgba(46, 184, 92, 0.2);
+  }
+
+  .status-pill.inactive {
+    color: #e55353;
+    background: rgba(229, 83, 83, 0.1);
+    border-color: rgba(229, 83, 83, 0.2);
+  }
+
+/* Dot de Nível */
+.dot {
+  height: 6px;
+  width: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Botões de Ação Minimalistas */
+.btn-action, .btn-action-danger {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #888;
+  padding: 4px 10px;
+  font-size: 0.9rem;
+  border-radius: 0;
+  transition: 0.2s;
+}
+
+  .btn-action:hover {
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+    border-color: #3d8bfd;
+  }
+
+  .btn-action-danger:hover {
+    background: rgba(229, 83, 83, 0.1);
+    color: #e55353;
+    border-color: #e55353;
+  }
+
+/* Tabela Custom */
+.custom-table thead th {
+  font-size: 0.7rem;
+  letter-spacing: 0.5px;
+  background-color: #151515;
+}
+/* Inputs Customizados Industrial Dark */
+.custom-input {
+  transition: all 0.2s ease-in-out;
+}
+
+  .custom-input:focus {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    border-color: #3d8bfd !important;
+    box-shadow: none !important;
+    color: #fff !important;
+  }
+
+  /* Estilização para o Placeholder */
+  .custom-input::placeholder {
+    color: #444 !important;
+    font-size: 0.85rem;
+  }
+
+/* Ajuste no seletor de dropdown */
+select.custom-input option {
+  background-color: #1a1a1a;
+  color: #fff;
+}

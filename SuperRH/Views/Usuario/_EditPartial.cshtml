@@ -1,0 +1,42 @@
+﻿@section Scripts {
+    <script>
+        // Inicializa os modais uma única vez
+        const elModal = document.getElementById('modalUsuario');
+        const modalBase = new bootstrap.Modal(elModal);
+        const modalExcluir = new bootstrap.Modal(document.getElementById('modalExcluir'));
+
+        function carregarModal(url, titulo) {
+            document.getElementById('tituloModal').innerText = titulo;
+            // Mostra o spinner antes de carregar
+            $("#conteudoModal").html('<div class="text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>');
+
+            modalBase.show();
+
+            $.get(url)
+                .done(function (data) {
+                    $("#conteudoModal").html(data);
+                })
+                .fail(function () {
+                    $("#conteudoModal").html('<div class="alert alert-danger rounded-0 m-3">Erro ao carregar dados.</div>');
+                });
+        }
+
+        function abrirModalCadastro() {
+            carregarModal("/Usuario/Create", "PROVISIONAMENTO DE NOVO USUÁRIO");
+        }
+
+        function verDetalhes(id) {
+            carregarModal("/Usuario/Details/" + id, "INFORMAÇÕES DE ACESSO");
+        }
+
+        function editarUsuario(id) {
+            carregarModal("/Usuario/Edit/" + id, "ATUALIZAÇÃO DE CREDENCIAIS");
+        }
+
+        function confirmarExclusao(id, nome) {
+            document.getElementById('idUsuarioExcluir').value = id;
+            document.getElementById('nomeUsuarioExcluir').innerText = nome;
+            modalExcluir.show();
+        }
+    </script>
+}

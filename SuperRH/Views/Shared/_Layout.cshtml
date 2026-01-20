@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SuperRH</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="bg-dark text-light">
+
+    <div id="wrapper">
+        <aside id="sidebar-wrapper">
+            <div class="sidebar-heading text-white border-bottom border-secondary">
+                <i class="bi bi-cpu-fill text-primary me-2"></i> <span class="fw-bold">RH - DigitalNET</span>
+            </div>
+
+            <div class="sidebar-nav">
+                <a asp-controller="Home" asp-action="Index" class="nav-item-main mt-2">
+                    <i class="bi bi-house-door me-3"></i> Home
+                </a>
+
+                <div class="sidebar-label">Gestão de RH</div>
+
+                <a class="nav-item-main" data-bs-toggle="collapse" href="#menuColab">
+                    <i class="bi bi-people me-3"></i> Colaboradores <i class="bi bi-chevron-down ms-auto small"></i>
+                </a>
+                <div class="collapse submenu-area" id="menuColab">
+                    <a asp-controller="Funcionarios" asp-action="Index" class="nav-item-sub">Cadastro</a>
+                    <a asp-controller="Contratos" asp-action="Index" class="nav-item-sub">Contratos</a>
+                    <a asp-controller="Historico" asp-action="Index" class="nav-item-sub">Histórico</a>
+                </div>
+
+                <a class="nav-item-main" data-bs-toggle="collapse" href="#menuPonto">
+                    <i class="bi bi-clock me-3"></i> Frequência <i class="bi bi-chevron-down ms-auto small"></i>
+                </a>
+                <div class="collapse submenu-area" id="menuPonto">
+                    <a asp-controller="Ponto" asp-action="Registro" class="nav-item-sub">Bater Ponto</a>
+                    <a asp-controller="Escalas" asp-action="Index" class="nav-item-sub">Escalas</a>
+                </div>
+
+                <div class="sidebar-label">Financeiro</div>
+
+                <a class="nav-item-main" data-bs-toggle="collapse" href="#menuFinan">
+                    <i class="bi bi-currency-dollar me-3"></i> Folha/Benefícios <i class="bi bi-chevron-down ms-auto small"></i>
+                </a>
+                <div class="collapse submenu-area" id="menuFinan">
+                    <a asp-controller="Folha" asp-action="Calculo" class="nav-item-sub">Cálculo Folha</a>
+                    <a asp-controller="Ferias" asp-action="Index" class="nav-item-sub">Férias</a>
+                </div>
+
+                <div class="sidebar-label">Configurações</div>
+                <a asp-controller="Usuario" asp-action="Index" class="nav-item-main">
+                    <i class="bi bi-shield-lock me-3"></i> Usuários
+                </a>
+            </div>
+        </aside>
+
+        <div id="page-content-wrapper">
+            <nav class="top-nav">
+                <button class="btn btn-dark border-secondary shadow-none" id="sidebarToggle">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+                <div class="d-flex align-items-center">
+                    <div class="text-end me-3 d-none d-sm-block">
+                        <div class="fw-bold small text-white">Administrador</div>
+                        <div class="text-secondary" style="font-size: 11px;">RH Corporativo</div>
+                    </div>
+                    <i class="bi bi-person-circle fs-3 text-primary"></i>
+                </div>
+            </nav>
+
+            <main class="p-4 flex-grow-1">
+                <div class="card card-dark-theme shadow-lg">
+                    <div class="card-body">
+                        @RenderBody()
+                    </div>
+                </div>
+            </main>
+
+            <footer class="main-footer text-center">
+                <span>&copy; 2026 - <b class="text-primary">SuperRH</b> - Todos os direitos reservados.</span>
+            </footer>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $("#sidebarToggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
