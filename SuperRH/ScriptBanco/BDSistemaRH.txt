@@ -1,0 +1,17 @@
+CREATE DATABASE BDSistemaRH;
+USE BDSistemaRH;
+
+CREATE TABLE Usuarios (
+    idUsuario INT IDENTITY(1,1) PRIMARY KEY, -- ID auto-incremento
+    Login VARCHAR(50) NOT NULL UNIQUE, -- Login único para acesso
+    SenhaHash VARCHAR(255) NOT NULL,  -- Senha criptografada (nunca texto plano)
+    NomeCompleto VARCHAR(100) NOT NULL,
+    Email VARCHAR(100),
+    NivelAcesso VARCHAR(20) NOT NULL 
+        CHECK (NivelAcesso IN ('Admin', 'Gerente', 'Operador')), -- Controle de Permissões
+    DataCriacao DATETIME DEFAULT GETDATE(),
+    Status BIT DEFAULT 1 -- 1 para Ativo, 0 para Inativo
+);
+GO
+
+SELECT * FROM Usuarios;

@@ -1,11 +1,18 @@
-/* Reset e Base DARK */
+/* Reset e Base DARK Industrial */
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #121212; /* Fundo Geral Dark */
+  font-family: 'Poppins', sans-serif; /* FONTE ATUALIZADA */
+  background-color: #0f0f0f;
   color: #e0e0e0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Títulos mais imponentes com Poppins */
+h1, h2, h3, h4, h5, h6, .fw-bold {
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 /* Layout Wrapper */
@@ -20,120 +27,93 @@ html, body {
 #sidebar-wrapper {
   min-width: 260px;
   max-width: 260px;
-  background-color: #1a1a1a;
+  background-color: #161616;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #2d2d2d;
+  border-right: 1px solid #252525;
 }
 
-/* Logo Area */
 .sidebar-heading {
   padding: 1.5rem 1rem;
-  font-size: 1.2rem;
-  letter-spacing: 1px;
-  background-color: #121212;
-}
-
-/* Menu e Links */
-.sidebar-nav {
-  flex: 1;
-  overflow-y: auto;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background-color: #0f0f0f;
 }
 
 .sidebar-label {
   padding: 1.5rem 1rem 0.5rem;
-  font-size: 0.7rem;
-  color: #888;
+  font-size: 0.65rem;
+  color: #555;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: 1px;
 }
 
 .nav-item-main {
-  color: #b0b0b0;
+  color: #999;
   text-decoration: none;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1.25rem;
   display: flex;
   align-items: center;
-  font-size: 0.9rem;
-  transition: all 0.2s;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: 0.2s;
   border-left: 3px solid transparent;
 }
 
   .nav-item-main:hover {
-    background-color: rgba(255,255,255,0.05);
+    background-color: rgba(61, 139, 253, 0.05);
     color: #3d8bfd;
     border-left-color: #3d8bfd;
   }
 
-/* Submenu */
+/* Submenu Area */
 .submenu-area {
-  background-color: #141414;
+  background-color: #121212;
 }
 
 .nav-item-sub {
-  color: #888;
+  color: #777;
   text-decoration: none;
-  padding: 0.5rem 1rem 0.5rem 2.8rem;
+  padding: 0.5rem 1rem 0.5rem 3rem;
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 400;
 }
 
   .nav-item-sub:hover {
     color: #fff;
-    background-color: rgba(255,255,255,0.03);
+    background-color: rgba(255,255,255,0.02);
   }
 
-/* Conteúdo Principal DARK */
+/* Page Content */
 #page-content-wrapper {
   flex: 1;
   height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  background-color: #121212;
 }
 
-/* Top Navbar DARK */
 .top-nav {
-  background: #1a1a1a;
-  border-bottom: 1px solid #2d2d2d;
+  background: #161616;
+  border-bottom: 1px solid #252525;
   padding: 0.75rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 999;
 }
 
-/* Card customizado para o Tema Dark */
+/* Cards Enterprise */
 .card-dark-theme {
-  background-color: #1a1a1a !important;
-  border: 1px solid #2d2d2d !important;
+  background-color: #161616 !important;
+  border: 1px solid #252525 !important;
   color: #e0e0e0 !important;
 }
 
-/* Controle de visibilidade (Toggle) */
-#wrapper.toggled #sidebar-wrapper {
-  margin-left: -260px;
-}
-
-/* Footer Custom DARK */
-.main-footer {
-  background: #1a1a1a;
-  border-top: 1px solid #2d2d2d;
-  padding: 1rem;
-  color: #777;
-  font-size: 0.85rem;
-}
-
-/* Utilitários */
-.bi {
-  font-size: 1.1rem;
-}
-/* Bordas quadradas e tipografia */
 .rounded-0 {
   border-radius: 0 !important;
 }
@@ -142,36 +122,31 @@ html, body {
   letter-spacing: -0.5px;
 }
 
-/* Avatar Quadrado Estilo Corporativo */
+/* Componentes de Usuário */
 .avatar-square {
   width: 40px;
   height: 40px;
-  font-size: 1.1rem;
-  border-radius: 2px; /* Quase quadrado */
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 2px;
+  background-color: rgba(61, 139, 253, 0.1);
+  border: 1px solid rgba(61, 139, 253, 0.2);
 }
 
-/* Status Pill Industrial */
 .status-pill {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 800;
-  padding: 2px 8px;
+  padding: 2px 10px;
   border: 1px solid;
-  border-radius: 0px;
+  letter-spacing: 0.5px;
 }
 
   .status-pill.active {
     color: #2eb85c;
-    background: rgba(46, 184, 92, 0.1);
+    background: rgba(46, 184, 92, 0.05);
     border-color: rgba(46, 184, 92, 0.2);
   }
 
-  .status-pill.inactive {
-    color: #e55353;
-    background: rgba(229, 83, 83, 0.1);
-    border-color: rgba(229, 83, 83, 0.2);
-  }
-
-/* Dot de Nível */
 .dot {
   height: 6px;
   width: 6px;
@@ -179,11 +154,34 @@ html, body {
   display: inline-block;
 }
 
-/* Botões de Ação Minimalistas */
+/* Inputs Customizados Industrial */
+.custom-input {
+  transition: 0.2s;
+  font-size: 0.85rem;
+}
+
+  .custom-input:focus {
+    background-color: rgba(255, 255, 255, 0.02) !important;
+    border-color: #3d8bfd !important;
+    box-shadow: none !important;
+    color: #fff !important;
+  }
+
+.main-footer {
+  background: #161616;
+  border-top: 1px solid #252525;
+  padding: 1rem;
+  color: #555;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+
+/* Botões de Ação na Tabela - Cor Branca */
 .btn-action, .btn-action-danger {
   background: transparent;
   border: 1px solid rgba(255,255,255,0.1);
-  color: #888;
+  color: #ffffff !important; /* Força cor branca */
   padding: 4px 10px;
   font-size: 0.9rem;
   border-radius: 0;
@@ -191,43 +189,50 @@ html, body {
 }
 
   .btn-action:hover {
-    background: rgba(255,255,255,0.05);
-    color: #fff;
+    background: rgba(255,255,255,0.1);
+    color: #3d8bfd !important;
     border-color: #3d8bfd;
   }
 
   .btn-action-danger:hover {
-    background: rgba(229, 83, 83, 0.1);
-    color: #e55353;
-    border-color: #e55353;
+    background: rgba(229, 83, 83, 0.2);
+    color: #ff4d4d !important;
+    border-color: #ff4d4d;
   }
 
-/* Tabela Custom */
-.custom-table thead th {
-  font-size: 0.7rem;
-  letter-spacing: 0.5px;
-  background-color: #151515;
-}
-/* Inputs Customizados Industrial Dark */
-.custom-input {
-  transition: all 0.2s ease-in-out;
+/* Dropdown (Select) Edição - Estilo Enterprise Dark */
+select.bg-transparent option {
+  background-color: #1a1a1a; /* Fundo escuro para as opções */
+  color: #ffffff; /* Texto branco para as opções */
 }
 
-  .custom-input:focus {
-    background-color: rgba(255, 255, 255, 0.03) !important;
-    border-color: #3d8bfd !important;
-    box-shadow: none !important;
-    color: #fff !important;
+/* Ajuste para remover o azul padrão do navegador no foco do select */
+.form-select:focus {
+  border-color: #3d8bfd;
+  box-shadow: none;
+  background-color: rgba(255,255,255,0.02) !important;
+}
+/* Botões de Ação Rápida no Dashboard */
+.btn-action-quick {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: #888;
+  border-radius: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+  .btn-action-quick:hover {
+    background-color: rgba(61, 139, 253, 0.08);
+    border-color: #3d8bfd;
+    color: #fff;
+    transform: translateY(-3px);
   }
 
-  /* Estilização para o Placeholder */
-  .custom-input::placeholder {
-    color: #444 !important;
-    font-size: 0.85rem;
+  .btn-action-quick i {
+    color: #3d8bfd;
+    opacity: 0.7;
   }
 
-/* Ajuste no seletor de dropdown */
-select.custom-input option {
-  background-color: #1a1a1a;
-  color: #fff;
-}
+  .btn-action-quick:hover i {
+    opacity: 1;
+  }

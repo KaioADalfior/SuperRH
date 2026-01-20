@@ -51,23 +51,35 @@ namespace SuperRH.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Usuario usuario)
         {
+            // Removemos a validação de SenhaHash se ela não for obrigatória na edição
+            ModelState.Remove("SenhaHash");
+
             if (ModelState.IsValid)
             {
-                var userDb = _context.Usuarios.Find(usuario.idUsuario);
-                if (userDb == null) return NotFound();
+                try
+                {
+                    var userDb = _context.Usuarios.FirstOrDefault(u => u.idUsuario == usuario.idUsuario);
 
-                userDb.NomeCompleto = usuario.NomeCompleto;
-                userDb.Email = usuario.Email;
-                userDb.Login = usuario.Login;
-                userDb.NivelAcesso = usuario.NivelAcesso;
+                    if (userDb == null) return NotFound();
 
-                if (!string.IsNullOrEmpty(usuario.SenhaHash))
-                    userDb.SenhaHash = usuario.SenhaHash;
+                    // Atualização manual dos campos para garantir persistência
+                    userDb.NomeCompleto = usuario.NomeCompleto;
+                    userDb.Email = usuario.Email;
+                    userDb.Login = usuario.Login;
+                    userDb.NivelAcesso = usuario.NivelAcesso;
 
-                _context.Usuarios.Update(userDb);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                    _context.Usuarios.Update(userDb);
+                    _context.SaveChanges();
+
+                    return Ok(); // Resposta para o AJAX entender que deu certo
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("Erro ao persistir dados: " + ex.Message);
+                }
             }
+
+            // Se o modelo for inválido, devolvemos a partial com os erros
             return PartialView("_EditPartial", usuario);
         }
 

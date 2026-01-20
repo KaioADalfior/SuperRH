@@ -1,42 +1,61 @@
-﻿@section Scripts {
-    <script>
-        // Inicializa os modais uma única vez
-        const elModal = document.getElementById('modalUsuario');
-        const modalBase = new bootstrap.Modal(elModal);
-        const modalExcluir = new bootstrap.Modal(document.getElementById('modalExcluir'));
+﻿@model SuperRH.Models.Usuario
 
-        function carregarModal(url, titulo) {
-            document.getElementById('tituloModal').innerText = titulo;
-            // Mostra o spinner antes de carregar
-            $("#conteudoModal").html('<div class="text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>');
+<form id="formEdicaoUsuario" asp-action="Edit" method="post" class="p-4">
+    @Html.AntiForgeryToken()
+    @* O ID oculto é VITAL para o banco saber quem atualizar *@
+    <input type="hidden" asp-for="idUsuario" />
 
-            modalBase.show();
+    <div class="row g-4">
+        <div class="col-md-8">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Nome Completo</label>
+            <input asp-for="NomeCompleto" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" required>
+        </div>
 
-            $.get(url)
-                .done(function (data) {
-                    $("#conteudoModal").html(data);
-                })
-                .fail(function () {
-                    $("#conteudoModal").html('<div class="alert alert-danger rounded-0 m-3">Erro ao carregar dados.</div>');
-                });
-        }
+        <div class="col-md-4">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Nível</label>
+            <select asp-for="NivelAcesso" class="form-select bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" required>
+                <option value="Admin">Admin</option>
+                <option value="Gerente">Gerente</option>
+                <option value="Operador">Operador</option>
+            </select>
+        </div>
 
-        function abrirModalCadastro() {
-            carregarModal("/Usuario/Create", "PROVISIONAMENTO DE NOVO USUÁRIO");
-        }
+        <div class="col-md-6">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Login</label>
+            <input asp-for="Login" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" required>
+        </div>
 
-        function verDetalhes(id) {
-            carregarModal("/Usuario/Details/" + id, "INFORMAÇÕES DE ACESSO");
-        }
+        <div class="col-md-6">
+            <label class="form-label text-secondary small fw-bold text-uppercase">E-mail</label>
+            <input asp-for="Email" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2">
+        </div>
 
-        function editarUsuario(id) {
-            carregarModal("/Usuario/Edit/" + id, "ATUALIZAÇÃO DE CREDENCIAIS");
-        }
+        <div class="col-12 mt-5 border-top border-secondary border-opacity-10 pt-4 d-flex justify-content-end">
+            <button type="button" class="btn btn-link text-secondary text-decoration-none me-3 small fw-bold" data-bs-dismiss="modal">CANCELAR</button>
+            <button type="submit" class="btn btn-primary rounded-0 px-4 py-2 fw-bold text-uppercase small shadow-sm">
+                SALVAR ALTERAÇÕES
+            </button>
+        </div>
+    </div>
+</form>
 
-        function confirmarExclusao(id, nome) {
-            document.getElementById('idUsuarioExcluir').value = id;
-            document.getElementById('nomeUsuarioExcluir').innerText = nome;
-            modalExcluir.show();
-        }
-    </script>
-}
+<script>
+    $("#formEdicaoUsuario").off("submit").on("submit", function (e) {
+        e.preventDefault();
+
+        const form = $(this);
+        $.ajax({
+            url: form.attr("action"),
+            type: "POST",
+            data: form.serialize(),
+            success: function () {
+                // Fecha o modal e recarrega a página para atualizar a tabela
+                bootstrap.Modal.getInstance(document.getElementById('modalUsuario')).hide();
+                window.location.reload();
+            },
+            error: function (xhr) {
+                alert("Erro ao salvar: " + xhr.responseText);
+            }
+        });
+    });
+</script>
