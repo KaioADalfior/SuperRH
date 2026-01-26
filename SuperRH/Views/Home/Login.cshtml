@@ -1,4 +1,48 @@
-﻿@{
+﻿@model SuperRH.Models.LoginViewModel
+
+@{
     ViewData["Title"] = "Login";
 }
 
+<div class="d-flex justify-content-center align-items-center vh-100 bg-dark">
+    <div class="card bg-dark border-secondary border-opacity-25 shadow-lg rounded-0" style="width: 400px;">
+        <div class="card-body p-4">
+            <h3 class="fw-bold text-white text-uppercase mb-3 text-center">Entrar no Sistema</h3>
+            <p class="text-secondary text-center small mb-4">Informe seus dados para acessar o sistema</p>
+
+            <form asp-action="Login" method="post" id="formLogin">
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <label class="form-label text-secondary small fw-bold text-uppercase">Usuário</label>
+                    <input asp-for="Usuario" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" placeholder="Digite seu usuário" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-secondary small fw-bold text-uppercase">Senha</label>
+                    <input asp-for="Senha" type="password" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" placeholder="Digite sua senha" required />
+                </div>
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-primary rounded-0 fw-bold text-uppercase py-2">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $("#formLogin").on("submit", function (e) {
+            e.preventDefault();
+            const form = $(this);
+            $.post(form.attr("action"), form.serialize(), function (res) {
+                if (res.sucesso) {
+                    window.location.href = '/'; // Redireciona para dashboard
+                } else {
+                    alert("Usuário ou senha incorretos.");
+                }
+            });
+        });
+    </script>
+}

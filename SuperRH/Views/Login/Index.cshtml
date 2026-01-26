@@ -1,0 +1,135 @@
+﻿@model SuperRH.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SuperRH</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="bg-dark">
+
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="card bg-dark border-secondary border-opacity-25 shadow-lg rounded-0" style="width: 400px;">
+            <div class="card-body p-4">
+                <h3 class="fw-bold text-white text-uppercase mb-3 text-center">Entrar no Sistema</h3>
+                <p class="text-secondary text-center small mb-4">Informe seus dados para acessar o sistema</p>
+
+                <form asp-action="Login" method="post" id="formLogin">
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small fw-bold text-uppercase">Usuário</label>
+                        <input asp-for="Usuario" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" placeholder="Digite seu usuário" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small fw-bold text-uppercase">Senha</label>
+                        <input asp-for="Senha" type="password" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" placeholder="Digite sua senha" required />
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary rounded-0 fw-bold text-uppercase py-2">Entrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalLoading" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content bg-dark border-secondary text-white rounded-0">
+                <div class="modal-body text-center p-4">
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                    <p class="small mb-0 text-uppercase fw-bold">Autenticando...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalErro" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark border-danger border-opacity-50 rounded-0 shadow-lg">
+                <div class="modal-header border-bottom border-danger border-opacity-25">
+                    <h5 class="modal-title text-danger fw-bold small text-uppercase">
+                        Acesso Negado
+                    </h5>
+                    <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body text-center py-5">
+                    <i class="bi bi-x-circle fs-1 text-danger mb-3"></i>
+
+                    <p class="text-white fw-bold mb-1" id="msgErroTexto">
+                        Usuário ou senha incorretos
+                    </p>
+                    <p class="text-secondary small mb-0">
+                        Verifique suas credenciais e tente novamente.
+                    </p>
+                </div>
+
+                <div class="modal-footer border-top border-danger border-opacity-10">
+                    <button class="btn btn-danger rounded-0 fw-bold text-uppercase btn-sm"
+                            data-bs-dismiss="modal">
+                        Tentar Novamente
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            const loadingModal = new bootstrap.Modal(document.getElementById('modalLoading'));
+            const erroModal = new bootstrap.Modal(document.getElementById('modalErro'));
+
+            $("#formLogin").on("submit", function (e) {
+                e.preventDefault();
+                const form = $(this);
+
+                loadingModal.show();
+
+                $.post(form.attr("action"), form.serialize(), function (res) {
+                    // Timeout visual apenas para não piscar muito rápido
+                    setTimeout(function() {
+                        if (res.sucesso) {
+                            window.location.href = res.url;
+                        } else {
+                            loadingModal.hide();
+
+                            // Atualiza o texto do modal se vier mensagem do backend
+                            if(res.mensagem) {
+                                $("#msgErroTexto").text(res.mensagem);
+                            } else {
+                                $("#msgErroTexto").text("Usuário ou senha incorretos");
+                            }
+
+                            // Pequeno delay para transição suave
+                            setTimeout(() => erroModal.show(), 300);
+                        }
+                    }, 800);
+                })
+                .fail(function() {
+                    loadingModal.hide();
+                    $("#msgErroTexto").text("Falha na conexão com o servidor.");
+                    setTimeout(() => erroModal.show(), 300);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
