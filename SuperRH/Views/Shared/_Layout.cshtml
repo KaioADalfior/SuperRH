@@ -32,8 +32,8 @@
                     <i class="bi bi-people me-3"></i> Colaboradores <i class="bi bi-chevron-down ms-auto small"></i>
                 </a>
                 <div class="collapse submenu-area" id="menuColab">
-                    <a asp-controller="Funcionario" asp-action="Index" class="nav-item-sub">Cadastro</a>
-                    <a asp-controller="Contratos" asp-action="Index" class="nav-item-sub">Contratos</a>
+                    <a asp-controller="Colaborador" asp-action="Index" class="nav-item-sub">Colaboradores</a>
+                    @* <a asp-controller="Contratos" asp-action="Index" class="nav-item-sub">Contratos</a> *@
                     <a asp-controller="Historico" asp-action="Index" class="nav-item-sub">Histórico</a>
                 </div>
 
@@ -41,15 +41,15 @@
                     <i class="bi bi-clock me-3"></i> Frequência <i class="bi bi-chevron-down ms-auto small"></i>
                 </a>
                 <div class="collapse submenu-area" id="menuPonto">
-                    <a asp-controller="Ponto" asp-action="Registro" class="nav-item-sub">Bater Ponto</a>
-                    <a asp-controller="Escalas" asp-action="Index" class="nav-item-sub">Escalas</a>
+                    @* <a asp-controller="Ponto" asp-action="Registro" class="nav-item-sub">Bater Ponto</a>
+                    <a asp-controller="Escalas" asp-action="Index" class="nav-item-sub">Escalas</a> *@
                 </div>
 
                 <div class="sidebar-label">Financeiro</div>
 
-                <a class="nav-item-main" data-bs-toggle="collapse" href="#menuFinan">
+                @* <a class="nav-item-main" data-bs-toggle="collapse" href="#menuFinan">
                     <i class="bi bi-currency-dollar me-3"></i> Folha/Benefícios <i class="bi bi-chevron-down ms-auto small"></i>
-                </a>
+                </a> *@
 
                 <div class="collapse submenu-area" id="menuFinan">
                     <a asp-controller="Folha" asp-action="Calculo" class="nav-item-sub">Folha de Cálculo</a>

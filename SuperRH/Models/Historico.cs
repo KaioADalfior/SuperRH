@@ -11,16 +11,16 @@ namespace SuperRH.Models
         public int idHistorico { get; set; }
 
         [Required]
-        public int idFuncionario { get; set; }
+        public int idColaborador { get; set; }
 
         [Required(ErrorMessage = "A categoria é obrigatória.")]
         [StringLength(50)]
-        public string Categoria { get; set; } = string.Empty; // Inicializado para evitar o erro
+        public string Categoria { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "O título da ocorrência é obrigatório.")]
         [StringLength(100)]
         [Display(Name = "Ocorrência")]
-        public string Titulo { get; set; } = string.Empty; // Inicializado para evitar o erro
+        public string Titulo { get; set; } = string.Empty;
 
         [DataType(DataType.MultilineText)]
         public string? Descricao { get; set; }
@@ -33,7 +33,8 @@ namespace SuperRH.Models
 
         public string? UsuarioResponsavel { get; set; }
 
-        [ForeignKey("idFuncionario")]
-        public virtual Funcionario? Funcionario { get; set; }
+        // 🔗 RELACIONAMENTO CORRETO
+        [ForeignKey(nameof(idColaborador))]
+        public virtual Colaborador? Colaborador { get; set; }
     }
 }

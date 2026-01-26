@@ -1,0 +1,75 @@
+﻿@model SuperRH.Models.Colaborador
+
+<div class="p-4">
+
+    <!-- Cabeçalho -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <p class="text-primary fw-bold mb-0 small">
+                MATRÍCULA: #@Model.idColaborador.ToString("D4")
+            </p>
+            <h4 class="text-white fw-bold mb-0">@Model.NomeCompleto</h4>
+        </div>
+        <span class="badge bg-success bg-opacity-25 text-success px-3 py-2">
+            Ativo
+        </span>
+    </div>
+
+    <hr class="border-secondary border-opacity-25">
+
+    <!-- Dados Pessoais -->
+    <h6 class="text-uppercase text-secondary fw-bold mb-3">Dados Pessoais</h6>
+
+    <div class="row g-3 text-white">
+
+        <div class="col-md-4">
+            <small class="text-secondary">CPF</small>
+            <div>@Model.CPF</div>
+        </div>
+
+        <div class="col-md-4">
+            <small class="text-secondary">RG</small>
+            <div>@Model.RG</div>
+        </div>
+
+        <div class="col-md-4">
+            <small class="text-secondary">Órgão Emissor</small>
+            <div>@Model.OrgaoEmissor</div>
+        </div>
+
+        <div class="col-md-4">
+            <small class="text-secondary">Data de Nascimento</small>
+            <div>@Model.DataNascimento.ToString("dd/MM/yyyy")</div>
+        </div>
+
+        <div class="col-md-4">
+            <small class="text-secondary">Gênero</small>
+            <div>
+                @(Model.Sexo == "M" ? "Masculino" :
+                                Model.Sexo == "F" ? "Feminino" : "Outro")
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <small class="text-secondary">Estado Civil</small>
+            <div>@Model.EstadoCivil</div>
+        </div>
+
+        <div class="col-md-6">
+            <small class="text-secondary">Nome da Mãe</small>
+            <div>@Model.NomeMae</div>
+        </div>
+
+        <div class="col-md-6">
+            <small class="text-secondary">Nome do Pai</small>
+            <div>@(string.IsNullOrEmpty(Model.NomePai) ? "Não informado" : Model.NomePai)</div>
+        </div>
+
+        <div class="col-md-4">
+            <small class="text-secondary">Naturalidade</small>
+            <div>@Model.Naturalidade</div>
+        </div>
+
+    </div>
+
+</div>

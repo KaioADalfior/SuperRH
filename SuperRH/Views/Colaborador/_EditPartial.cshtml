@@ -1,0 +1,26 @@
+﻿@model SuperRH.Models.Colaborador
+<form id="formEditColaborador" asp-action="Edit" method="post" class="p-4">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="idColaborador" />
+
+    @* mesmos campos do Create *@
+
+    <div class="col-12 mt-5 text-end">
+        <button type="button" class="btn btn-link text-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary rounded-0 px-5">Atualizar</button>
+    </div>
+</form>
+
+<script>
+    $("#formEditColaborador").off("submit").on("submit", function (e) {
+        e.preventDefault();
+        const form = $(this);
+
+        $.post(form.attr("action"), form.serialize())
+            .done(() => {
+                modalCol.hide();
+                location.reload();
+            });
+    });
+</script>
+

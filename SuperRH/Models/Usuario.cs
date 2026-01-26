@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SuperRH.Models
@@ -9,19 +10,32 @@ namespace SuperRH.Models
         [Key]
         public int idUsuario { get; set; }
 
-        [Required]
-        public required string Login { get; set; }
+        [Required(ErrorMessage = "Login obrigatório")]
+        [StringLength(50)]
+        public string Login { get; set; } = string.Empty;
 
-        [Required]
-        public required string SenhaHash { get; set; }
+        [Required(ErrorMessage = "Senha obrigatória")]
+        public string SenhaHash { get; set; } = string.Empty;
 
-        [Required]
-        public required string NomeCompleto { get; set; }
+        [Required(ErrorMessage = "Nome obrigatório")]
+        [StringLength(100)]
+        public string NomeCompleto { get; set; } = string.Empty;
 
+        [EmailAddress]
         public string? Email { get; set; }
 
         [Required]
-        public required string NivelAcesso { get; set; }
+        [StringLength(20)]
+        public string NivelAcesso { get; set; } = string.Empty;
+
+        /* =========================
+           🔗 VÍNCULO COM COLABORADOR
+        ========================== */
+        [Required]
+        public int idColaborador { get; set; }
+
+        [ForeignKey(nameof(idColaborador))]
+        public virtual Colaborador? Colaborador { get; set; }
 
         public DateTime DataCriacao { get; set; } = DateTime.Now;
 

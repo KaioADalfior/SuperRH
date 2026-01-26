@@ -1,74 +1,72 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SuperRH.Data;
 using SuperRH.Models;
-using Microsoft.EntityFrameworkCore;
 
-namespace SuperRH.Controllers
+public class HistoricoController : Controller
 {
-    public class HistoricoController : Controller
+    private readonly AppDbContext _context;
+
+    public HistoricoController(AppDbContext context)
     {
-        private readonly AppDbContext _context;
-
-        public HistoricoController(AppDbContext context)
-        {
-            _context = context;
-        }
-
-        // Listagem de funcionários para escolher quem recebe o histórico
-        public IActionResult Index()
-        {
-            var funcionarios = _context.Funcionarios
-                .OrderBy(f => f.NomeCompleto)
-                .ToList();
-            return View(funcionarios);
-        }
-
-        // GET: Carrega o formulário no modal
-        [HttpGet]
-        public IActionResult Create(int idFuncionario)
-        {
-            var funcionario = _context.Funcionarios.Find(idFuncionario);
-            if (funcionario == null) return NotFound();
-
-            var model = new Historico
-            {
-                idFuncionario = idFuncionario,
-                DataEvento = DateTime.Now
-            };
-
-            return PartialView("_CreatePartial", model);
-        }
-
-        // POST: Salva a ocorrência
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Historico historico)
-        {
-            if (ModelState.IsValid)
-            {
-                historico.DataRegistro = DateTime.Now;
-                _context.Historico.Add(historico);
-                _context.SaveChanges();
-                return Ok();
-            }
-            return PartialView("_CreatePartial", historico);
-        }
-
-        public IActionResult Timeline(int id)
-        {
-            // Busca os históricos do funcionário específico, ordenando pelos mais recentes
-            var listaHistorico = _context.Historico
-                .Where(h => h.idFuncionario == id)
-                .OrderByDescending(h => h.DataEvento)
-                .ToList();
-
-            // Busca o nome do funcionário para exibir no topo (opcional)
-            ViewBag.NomeFuncionario = _context.Funcionarios
-                .Where(f => f.idFuncionario == id)
-                .Select(f => f.NomeCompleto)
-                .FirstOrDefault();
-
-            return PartialView("_TimelinePartial", listaHistorico);
-        }
+        _context = context;
     }
+
+    // LISTA COLABORADORES
+    public IActionResult Index()
+    {
+        var colaboradores = _context.Colaboradores.ToList();
+        return View(colaboradores);
+    }
+
+    // TIMELINE (PARTIAL)
+    public IActionResult Timeline(int idColaborador)
+    {
+        var historico = _context.Historicos
+            .Where(h => h.idColaborador == idColaborador)
+            .OrderByDescending(h => h.DataEvento)
+            .ToList();
+
+        return PartialView("_TimelinePartial", historico);
+    }
+
+    // DETALHES (PARTIAL)
+    public IActionResult Detalhes(int id)
+    {
+        var historico = _context.Historicos
+            .Include(h => h.Colaborador)
+            .FirstOrDefault(h => h.idHistorico == id);
+
+        if (historico == null)
+            return NotFound();
+
+        return PartialView("_DetalhesHistoricoPartial", historico);
+    }
+
+    // CREATE (PARTIAL)
+    public IActionResult Create(int idColaborador)
+    {
+        var model = new Historico
+        {
+            idColaborador = idColaborador,
+            DataEvento = DateTime.Now
+        };
+
+        return PartialView("_CreatePartial", model);
+    }
+
+    [HttpPost]
+    public IActionResult Create(Historico model)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        model.DataRegistro = DateTime.Now;
+
+        _context.Historicos.Add(model);
+        _context.SaveChanges();
+
+        return Json(new { sucesso = true });
+    }
+
 }

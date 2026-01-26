@@ -1,0 +1,101 @@
+﻿@model SuperRH.Models.Colaborador
+
+<form id="formNovoColaborador" asp-action="Create" method="post" class="p-4" autocomplete="off">
+    @Html.AntiForgeryToken()
+
+    <div class="row g-3">
+
+        <div class="col-md-8">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Nome Completo</label>
+            <input asp-for="NomeCompleto" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" required>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label text-secondary small fw-bold text-uppercase">CPF</label>
+            <input asp-for="CPF" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" required>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label text-secondary small fw-bold text-uppercase">RG</label>
+            <input asp-for="RG" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" required>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Órgão Emissor</label>
+            <input asp-for="OrgaoEmissor" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2">
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Nascimento</label>
+            <input asp-for="DataNascimento" type="date" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" required>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Gênero</label>
+            <select asp-for="Sexo" class="form-select bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" required>
+                <option value="">Selecionar</option>
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+                <option value="O">Outro</option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Estado Civil</label>
+            <select asp-for="EstadoCivil" class="form-select bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2">
+                <option value="">Selecionar</option>
+                <option value="Solteiro">Solteiro(a)</option>
+                <option value="Casado">Casado(a)</option>
+                <option value="Divorciado">Divorciado(a)</option>
+                <option value="Viúvo">Viúvo(a)</option>
+                <option value="União Estável">União Estável</option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Cargo</label>
+            <select asp-for="idCargo" class="form-select bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" required>
+                <option value="">Selecionar Cargo</option>
+                @foreach (var cargo in ViewBag.Cargos)
+                {
+                    <option value="@cargo.idCargo">@cargo.NomeCargo</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Naturalidade</label>
+            <input asp-for="Naturalidade" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2">
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Nome da Mãe</label>
+            <input asp-for="NomeMae" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2" required>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label text-secondary small fw-bold text-uppercase">Nome do Pai</label>
+            <input asp-for="NomePai" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2">
+        </div>
+
+        <div class="col-12 mt-4 text-end">
+            <button type="button" class="btn btn-link text-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary rounded-0 px-5">Salvar</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    $("#formNovoColaborador").off("submit").on("submit", function (e) {
+        e.preventDefault();
+
+        const form = $(this);
+
+        $.post(form.attr("action"), form.serialize())
+            .done(() => {
+                modalFunc.hide();
+                location.reload();
+            })
+            .fail(err => alert("Erro ao salvar: " + err.responseText));
+    });
+</script>

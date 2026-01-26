@@ -4,26 +4,26 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SuperRH.Models
 {
-    [Table("Funcionarios")]
-    public class Funcionario
+    [Table("Colaboradores")]
+    public class Colaborador
     {
         [Key]
-        public int idFuncionario { get; set; }
+        public int idColaborador { get; set; }
 
         [Required(ErrorMessage = "O nome completo é obrigatório.")]
         [StringLength(150)]
         [Display(Name = "Nome Completo")]
-        public required string NomeCompleto { get; set; }
+        public string NomeCompleto { get; set; } = null!;
 
         [Required(ErrorMessage = "O CPF é obrigatório.")]
         [StringLength(11, MinimumLength = 11, ErrorMessage = "O CPF deve ter 11 dígitos.")]
         [Display(Name = "CPF")]
-        public required string CPF { get; set; }
+        public string CPF { get; set; } = null!;
 
         [Required(ErrorMessage = "O RG é obrigatório.")]
         [StringLength(20)]
         [Display(Name = "RG")]
-        public required string RG { get; set; }
+        public string RG { get; set; } = null!;
 
         [StringLength(20)]
         [Display(Name = "Órgão Emissor")]
@@ -34,16 +34,17 @@ namespace SuperRH.Models
         [Display(Name = "Data de Nascimento")]
         public DateTime DataNascimento { get; set; }
 
-        [Required(ErrorMessage = "O gênero é obrigatório.")]
+        [Required(ErrorMessage = "O sexo é obrigatório.")]
         [StringLength(1)]
-        public required string Sexo { get; set; } // M, F, O
+        [Display(Name = "Sexo")]
+        public string Sexo { get; set; } = null!; // M, F, O
 
         [StringLength(20)]
         [Display(Name = "Estado Civil")]
         public string? EstadoCivil { get; set; }
 
         [StringLength(50)]
-        public string? Nacionalidade { get; set; } = "Brasileira";
+        public string Nacionalidade { get; set; } = "Brasileira";
 
         [StringLength(50)]
         public string? Naturalidade { get; set; }
@@ -55,8 +56,17 @@ namespace SuperRH.Models
         [Required(ErrorMessage = "O nome da mãe é obrigatório.")]
         [StringLength(150)]
         [Display(Name = "Nome da Mãe")]
-        public required string NomeMae { get; set; }
+        public string NomeMae { get; set; } = null!;
 
+        // 🔗 CHAVE ESTRANGEIRA - CARGO
+        [Required]
+        [Display(Name = "Cargo")]
+        public int idCargo { get; set; }
+
+        [ForeignKey(nameof(idCargo))]
+        public Cargo? Cargo { get; set; }
+
+        [Display(Name = "Data de Cadastro")]
         public DateTime DataCadastro { get; set; } = DateTime.Now;
 
         public bool Status { get; set; } = true;

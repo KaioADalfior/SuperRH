@@ -4,34 +4,76 @@
     @Html.AntiForgeryToken()
 
     <div class="row g-4">
-        <div class="col-md-8">
-            <label class="form-label text-secondary small fw-bold text-uppercase">Nome Completo</label>
-            <input asp-for="NomeCompleto" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input" required>
+
+        <!-- COLABORADOR -->
+        <div class="col-md-12">
+            <label class="form-label text-secondary small fw-bold text-uppercase">
+                Colaborador
+            </label>
+            <select asp-for="idColaborador"
+                    asp-items="ViewBag.Colaboradores"
+                    class="form-select bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input"
+                    required>
+                <option value="" disabled selected>Selecionar colaborador...</option>
+            </select>
         </div>
 
+        <!-- NOME -->
+        <div class="col-md-8">
+            <label class="form-label text-secondary small fw-bold text-uppercase">
+                Nome Completo
+            </label>
+            <input asp-for="NomeCompleto"
+                   class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input"
+                   required>
+        </div>
+
+        <!-- NÍVEL -->
         <div class="col-md-4">
-            <label class="form-label text-secondary small fw-bold text-uppercase">Privilégio</label>
-            <select asp-for="NivelAcesso" class="form-select bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input" required>
-                <option value="" selected disabled>Selecionar...</option>
+            <label class="form-label text-secondary small fw-bold text-uppercase">
+                Privilégio
+            </label>
+            <select asp-for="NivelAcesso"
+                    class="form-select bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input"
+                    required>
+                <option value="" disabled selected>Selecionar...</option>
                 <option value="Admin">Administrador</option>
                 <option value="Gerente">Gerente</option>
                 <option value="Operador">Operador</option>
             </select>
         </div>
 
+        <!-- LOGIN -->
         <div class="col-md-6">
-            <label class="form-label text-secondary small fw-bold text-uppercase">Login</label>
-            <input asp-for="Login" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input" required>
+            <label class="form-label text-secondary small fw-bold text-uppercase">
+                Login
+            </label>
+            <input asp-for="Login"
+                   class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input"
+                   required>
         </div>
 
+        <!-- SENHA -->
         <div class="col-md-6">
-            <label class="form-label text-secondary small fw-bold text-uppercase">Senha Inicial</label>
-            <input type="password" asp-for="SenhaHash" class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input" required>
+            <label class="form-label text-secondary small fw-bold text-uppercase">
+                Senha Inicial
+            </label>
+            <input type="password"
+                   asp-for="SenhaHash"
+                   class="form-control bg-transparent border-secondary border-opacity-25 text-white rounded-0 py-2 custom-input"
+                   required>
         </div>
 
+        <!-- BOTÕES -->
         <div class="col-12 mt-5 border-top border-secondary border-opacity-10 pt-4 d-flex justify-content-end">
-            <button type="button" class="btn btn-link text-secondary text-decoration-none me-3 small fw-bold text-uppercase" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary rounded-0 px-4 py-2 fw-bold text-uppercase small shadow-sm">
+            <button type="button"
+                    class="btn btn-link text-secondary text-decoration-none me-3 small fw-bold text-uppercase"
+                    data-bs-dismiss="modal">
+                Cancelar
+            </button>
+
+            <button type="submit"
+                    class="btn btn-primary rounded-0 px-4 py-2 fw-bold text-uppercase small shadow-sm">
                 <i class="bi bi-shield-plus me-2"></i> Criar Conta
             </button>
         </div>

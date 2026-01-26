@@ -1,0 +1,22 @@
+﻿@model SuperRH.Models.Historico
+
+<div class="p-4">
+    <span class="badge bg-warning text-dark text-uppercase">@Model.Categoria</span>
+
+    <h5 class="fw-bold text-white mt-3">@Model.Titulo</h5>
+
+    <p class="text-secondary mt-3">@Model.Descricao</p>
+
+    <hr class="border-secondary border-opacity-10" />
+
+    <div class="row small text-secondary">
+        <div class="col-md-6">
+            <strong>Colaborador</strong><br />
+            @Model.Colaborador?.NomeCompleto
+        </div>
+        <div class="col-md-6 text-end">
+            <strong>Data</strong><br />
+            @Model.DataEvento.ToString("dd/MM/yyyy")
+        </div>
+    </div>
+</div>

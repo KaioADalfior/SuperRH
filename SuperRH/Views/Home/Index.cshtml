@@ -2,6 +2,9 @@
     ViewData["Title"] = "Dashboard Corporativo";
 }
 
+@model SuperRH.Models.DashboardViewModel
+
+
 <nav aria-label="breadcrumb" class="mb-2">
     <ol class="breadcrumb mb-0">
         <li class="breadcrumb-item small text-uppercase active text-primary fw-bold" aria-current="page">
@@ -13,7 +16,7 @@
 <div class="d-flex justify-content-between align-items-end mb-4">
     <div>
         <h2 class="fw-bold mb-0 text-white text-uppercase tracking-tight">Painel de Controle</h2>
-        <p class="text-secondary mb-0 small">Bem-vindo, **Administrador**. Sistema atualizado em tempo real.</p>
+        <p class="text-secondary mb-0 small">Bem-vindo, Administrador. Sistema atualizado em tempo real.</p>
     </div>
     <button class="btn btn-outline-primary rounded-0 px-4 py-2 fw-bold text-uppercase small shadow-sm">
         <i class="bi bi-file-earmark-pdf me-2"></i> Exportar BI
@@ -27,7 +30,10 @@
                 <div class="d-flex justify-content-between">
                     <div>
                         <div class="text-secondary small fw-bold text-uppercase" style="font-size: 0.65rem; letter-spacing: 1px;">Efetivo Total</div>
-                        <div class="h3 fw-bold mb-0 text-white tracking-tight">124</div>
+                        <div class="h3 fw-bold mb-0 text-white tracking-tight">
+                            @Model.TotalColaboradores
+                        </div>
+
                     </div>
                     <div class="bg-primary bg-opacity-10 p-2 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border-radius: 2px;">
                         <i class="bi bi-people text-primary fs-4"></i>
@@ -47,7 +53,10 @@
                 <div class="d-flex justify-content-between">
                     <div>
                         <div class="text-secondary small fw-bold text-uppercase" style="font-size: 0.65rem; letter-spacing: 1px;">Presentes Hoje</div>
-                        <div class="h3 fw-bold mb-0 text-white tracking-tight">118</div>
+                        <div class="h3 fw-bold mb-0 text-white tracking-tight">
+                            @Model.PresentesHoje
+                        </div>
+
                     </div>
                     <div class="bg-success bg-opacity-10 p-2 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border-radius: 2px;">
                         <i class="bi bi-calendar-check text-success fs-4"></i>
@@ -66,7 +75,9 @@
                 <div class="d-flex justify-content-between">
                     <div>
                         <div class="text-secondary small fw-bold text-uppercase" style="font-size: 0.65rem; letter-spacing: 1px;">Férias Programadas</div>
-                        <div class="h3 fw-bold mb-0 text-white tracking-tight">08</div>
+                        <div class="h3 fw-bold mb-0 text-white tracking-tight">
+                            @Model.FeriasProgramadas.ToString("D2")
+                        </div>
                     </div>
                     <div class="bg-warning bg-opacity-10 p-2 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border-radius: 2px;">
                         <i class="bi bi-sun text-warning fs-4"></i>
@@ -85,7 +96,10 @@
                 <div class="d-flex justify-content-between">
                     <div>
                         <div class="text-secondary small fw-bold text-uppercase" style="font-size: 0.65rem; letter-spacing: 1px;">Alertas de Ponto</div>
-                        <div class="h3 fw-bold mb-0 text-white tracking-tight">03</div>
+                        <div class="h3 fw-bold mb-0 text-white tracking-tight">
+                            @Model.AlertasPonto.ToString("D2")
+                        </div>
+
                     </div>
                     <div class="bg-danger bg-opacity-10 p-2 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border-radius: 2px;">
                         <i class="bi bi-exclamation-triangle text-danger fs-4"></i>
@@ -108,7 +122,7 @@
             <div class="card-body p-4">
                 <div class="row g-3">
                     <div class="col-6 col-md-3">
-                        <a asp-controller="Funcionarios" asp-action="Index" class="btn btn-action-quick w-100 py-4">
+                        <a asp-controller="Colaborador" asp-action="Index" class="btn btn-action-quick w-100 py-4">
                             <i class="bi bi-person-plus d-block fs-2 mb-2"></i>
                             <span class="small fw-bold text-uppercase">Admitir</span>
                         </a>
